@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) 2018 Jundat95.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -43,8 +43,8 @@ var execSync = require('child_process').execSync;
 var chalk = require('chalk');
 var prompt = require('prompt');
 var semver = require('semver');
-var walk = require('./ultis/walk.js');
-var copyAndReplace = require('./ultis/copyAndReplace.js');
+var copydir = require('copy-dir');
+
 
 /**
  * Used arguments:
@@ -62,7 +62,7 @@ var copyAndReplace = require('./ultis/copyAndReplace.js');
 
 var options = require('minimist')(process.argv.slice(2));
 
-var CLI_MODULE_PATH = function() {
+var CLI_MODULE_PATH = function () {
   return path.resolve(
     process.cwd(),
     'node_modules',
@@ -71,7 +71,7 @@ var CLI_MODULE_PATH = function() {
   );
 };
 
-var REACT_NATIVE_PACKAGE_JSON_PATH = function() {
+var REACT_NATIVE_PACKAGE_JSON_PATH = function () {
   return path.resolve(
     process.cwd(),
     'node_modules',
@@ -149,24 +149,24 @@ if (cli) {
   }
 
   switch (commands[0]) {
-  case 'init':
-    if (!commands[1]) {
+    case 'init':
+      if (!commands[1]) {
+        console.error(
+          'Usage: react-native init <ProjectName> [--verbose]'
+        );
+        process.exit(1);
+      } else {
+        init(commands[1], options);
+      }
+      break;
+    default:
       console.error(
-        'Usage: react-native init <ProjectName> [--verbose]'
+        'Command `%s` unrecognized. ' +
+        'Make sure that you have run `npm install` and that you are inside a react-native project.',
+        commands[0]
       );
       process.exit(1);
-    } else {
-      init(commands[1], options);
-    }
-    break;
-  default:
-    console.error(
-      'Command `%s` unrecognized. ' +
-      'Make sure that you have run `npm install` and that you are inside a react-native project.',
-      commands[0]
-    );
-    process.exit(1);
-    break;
+      break;
   }
 }
 
@@ -174,7 +174,7 @@ function validateProjectName(name) {
   if (!String(name).match(/^[$A-Z_][0-9A-Z_$]*$/i)) {
     console.error(
       '"%s" is not a valid name for a project. Please use a valid identifier ' +
-        'name (alphanumeric).',
+      'name (alphanumeric).',
       name
     );
     process.exit(1);
@@ -183,7 +183,7 @@ function validateProjectName(name) {
   if (name === 'React') {
     console.error(
       '"%s" is not a valid name for a project. Please do not use the ' +
-        'reserved word "React".',
+      'reserved word "React".',
       name
     );
     process.exit(1);
@@ -299,12 +299,8 @@ function run(root, projectName, options) {
     }
   }
   try {
-    execSync(installCommand, {stdio: 'inherit'});
-    var here = path.relative(process.cwd(), '/templates/src');
-    console.log('src: ' + here);
-    console.log('des: ' + root);
-    
-    initRedux(here, root);
+    execSync(installCommand, { stdio: 'inherit' });
+
   } catch (err) {
     console.error(err);
     console.error('Command `' + installCommand + '` failed.');
@@ -313,23 +309,39 @@ function run(root, projectName, options) {
   checkNodeVersion();
   cli = require(CLI_MODULE_PATH());
   cli.init(root, projectName);
+
+  // Init redux in project
+  var pathTemplates = __dirname + '/templates/temp1';
+  initRedux(pathTemplates, root);
+
 }
 
-function initRedux(srcPath, destPath) {
-  console.log("Install redux...");
-  walk(srcPath).forEach(absoluteSrcFilePath => {
-    const fileName = path.basename(absoluteSrcFilePath);
-    console.log("====> file name: " + fileName);
-    let contentChangedCallback = null;
+function initRedux(pathTemplates, root) {
+  console.log('\nWating init redux...\n');
 
-    copyAndReplace(
-      absoluteSrcFilePath,
-      path.resolve(destPath, relativeRenamedPath),
-      {
-      },
-      contentChangedCallback,
-    );
+  fs.unlink(root + '/App.js', function (error) {
+    if (error) {
+      console.error(error);
+    }
+    // console.log('Deleted App.js');
   });
+
+  copydir(pathTemplates, root, function (err) {
+    if (err) {
+      console.error(err);
+    } else {
+      // console.log('copy file success');
+    }
+  });
+
+  try {
+    execSync('cd ' + root);
+    execSync('npm i --save redux react-redux --save-exact', { stdio: 'inherit' });
+    console.log('\nInit redux success\n');
+  } catch (ex) {
+    console.error(ex);
+  }
+
 }
 
 function checkNodeVersion() {
@@ -339,10 +351,10 @@ function checkNodeVersion() {
   }
   if (!semver.satisfies(process.version, packageJson.engines.node)) {
     console.error(chalk.red(
-        'You are currently running Node %s but React Native requires %s. ' +
-        'Please use a supported version of Node.\n' +
-        'See https://facebook.github.io/react-native/docs/getting-started.html'
-      ),
+      'You are currently running Node %s but React Native requires %s. ' +
+      'Please use a supported version of Node.\n' +
+      'See https://facebook.github.io/react-native/docs/getting-started.html'
+    ),
       process.version,
       packageJson.engines.node);
   }

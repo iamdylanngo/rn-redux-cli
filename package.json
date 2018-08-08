@@ -1,6 +1,6 @@
 {
-  "name": "react-native-cli",
-  "version": "2.0.1",
+  "name": "rn-redux-cli",
+  "version": "0.0.1",
   "license": "MIT",
   "description": "The React Native CLI tools",
   "main": "index.js",
@@ -9,16 +9,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/react-native.git"
+    "url": "https://github.com/jundat95/rn-redux-cli.git"
   },
   "scripts": {
     "test": "mocha"
   },
   "bin": {
-    "react-native": "index.js"
+    "rn-redux": "index.js"
   },
   "dependencies": {
     "chalk": "^1.1.1",
+    "copy-dir": "^0.4.0",
     "minimist": "^1.2.0",
     "prompt": "^0.2.14",
     "semver": "^5.0.3"
