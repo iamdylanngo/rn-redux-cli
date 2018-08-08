@@ -2,7 +2,18 @@
   "name": "rn-redux",
   "version": "0.0.1",
   "license": "MIT",
-  "description": "The React Native Redux CLI tools",
+  "author": {
+    "name": "Tinh Ngo",
+    "url": "https://github.com/jundat95/rn-redux-cli.git"
+  },
+  "description": "Redux CLI tools",
+  "keywords": [
+    "react-native",
+    "redux-tools",
+    "base-project",
+    "redux-cli",
+    "javascript"
+  ],
   "main": "index.js",
   "engines": {
     "node": ">=4"
