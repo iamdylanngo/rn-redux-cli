@@ -2,7 +2,7 @@
   "name": "rn-redux-cli",
   "version": "0.0.1",
   "license": "MIT",
-  "description": "The React Native CLI tools",
+  "description": "The React Native Redux CLI tools",
   "main": "index.js",
   "engines": {
     "node": ">=4"
