@@ -11,24 +11,24 @@
 // /!\ DO NOT MODIFY THIS FILE /!\
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// react-native-cli is installed globally on people's computers. This means
+// rn-redux-cli is installed globally on people's computers. This means
 // that it is extremely difficult to have them upgrade the version and
 // because there's only one global version installed, it is very prone to
 // breaking changes.
 //
-// The only job of react-native-cli is to init the repository and then
-// forward all the commands to the local version of react-native.
+// The only job of rn-redux-cli is to init the repository and then
+// forward all the commands to the local version of rn-redux.
 //
 // If you need to add a new command, please add it to local-cli/.
 //
 // The only reason to modify this file is to add more warnings and
-// troubleshooting information for the `react-native init` command.
+// troubleshooting information for the `rn-redux init` command.
 //
 // To allow for graceful failure on older node versions, this file should
 // retain ES5 compatibility.
 //
 // Do not make breaking changes! We absolutely don't want to have to
-// tell people to update their global version of react-native-cli.
+// tell people to update their global version of rn-redux-cli.
 //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // /!\ DO NOT MODIFY THIS FILE /!\
@@ -48,16 +48,12 @@ var copydir = require('copy-dir');
 
 /**
  * Used arguments:
- *   -v --version - to print current version of react-native-cli and react-native dependency
+ *   -v --version - to print current version of rn-redux-cli and rn-redux dependency
  *   if you are in a RN app folder
  * init - to create a new project and npm install it
  *   --verbose - to print logs while init
  *   --template - name of the template to use, e.g. --template navigation
- *   --version <alternative react-native package> - override default (https://registry.npmjs.org/react-native@latest),
- *      package to install, examples:
- *     - "0.22.0-rc1" - A new app will be created using a specific version of React Native from npm repo
- *     - "https://registry.npmjs.org/react-native/-/react-native-0.20.0.tgz" - a .tgz archive from any npm repo
- *     - "/Users/home/react-native/react-native-0.22.0.tgz" - for package prepared with `npm pack`, useful for e2e tests
+ *   --version <alternative rn-redux package> - override default (https://registry.npmjs.org/rn-redux@latest),
  */
 
 var options = require('minimist')(process.argv.slice(2));
