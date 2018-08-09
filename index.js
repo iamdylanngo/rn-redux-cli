@@ -329,41 +329,62 @@ function run(root, projectName, options) {
  * @param {path folder copy to project} pathTemplates 
  * @param {path project current} root 
  */
-function installRedux(pathTemplates, root) {
+async function installRedux(pathTemplates, root) {
   console.log('\nWating init redux...');
 
-  exec('cd ' + root, (e, stdout, stderr) => {
-    if (e) {
-      console.error('install redux fail');
-    }
+  await execSync('cd ' + root, { stdio: 'inherit' });
+  await execSync('npm i --save redux react-redux', { stdio: 'inherit' });
 
-    spawn('npm', ['i', '--save', 'redux', 'react-redux', '--save-exact'], { stdio: 'inherit' })
-      .on('exit', function (error) {
+  copydir(pathTemplates, root, function (err) {
+    if (err) {
+      console.error(err);
+    } else {
+      // console.log('copy file success');
+      
+      fs.unlink(root + '/App.js', function (error) {
         if (error) {
           console.error(error);
-        } else {
-
-          copydir(pathTemplates, root, function (err) {
-            if (err) {
-              console.error(err);
-            } else {
-              // console.log('copy file success');
-              console.log('\nInit redux success\n');
-            }
-          });
-
-          fs.unlink(root + '/App.js', function (error) {
-            if (error) {
-              console.error(error);
-            }
-            // console.log('deleted App.js');
-          });
-
         }
-
+        // console.log('deleted App.js');
+        console.log('\nInit redux success\n');
       });
-
+    }
   });
+
+
+
+//   exec('cd ' + root, (e, stdout, stderr) => {
+//     if (e) {
+//       console.error('install redux fail');
+//     }
+
+//     spawn('npm', ['i', '--save', 'redux', 'react-redux', '--save-exact'], { stdio: 'inherit' })
+//       .on('exit', function (error) {
+//         if (error) {
+//           console.error(error);
+//         } else {
+
+//           copydir(pathTemplates, root, function (err) {
+//             if (err) {
+//               console.error(err);
+//             } else {
+//               // console.log('copy file success');
+//               console.log('\nInit redux success\n');
+//             }
+//           });
+
+//           fs.unlink(root + '/App.js', function (error) {
+//             if (error) {
+//               console.error(error);
+//             }
+//             // console.log('deleted App.js');
+//           });
+
+//         }
+
+//       });
+
+//   });
 
 
 }
