@@ -6,13 +6,13 @@
     "name": "Tinh Ngo",
     "url": "https://github.com/jundat95/rn-redux-cli.git"
   },
-  "description": "Redux CLI tools",
+  "description": "React Native CLI tools",
   "keywords": [
     "react-native",
-    "redux-tools",
+    "react-native-tools",
     "base-project",
-    "redux-cli",
-    "javascript"
+    "react-native-cli",
+    "node-cli"
   ],
   "main": "index.js",
   "engines": {
