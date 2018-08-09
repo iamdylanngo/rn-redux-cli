@@ -1,0 +1,3 @@
+rootProject.name = 'tinhngo'
+
+include ':app'

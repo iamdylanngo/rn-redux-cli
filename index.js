@@ -40,10 +40,12 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 var execSync = require('child_process').execSync;
+var spawn = require('child_process').spawn;
 var chalk = require('chalk');
 var prompt = require('prompt');
 var semver = require('semver');
 var copydir = require('copy-dir');
+var initRedux = require('./ultis/redux-tools');
 
 
 /**
@@ -55,6 +57,7 @@ var copydir = require('copy-dir');
  *   --template - name of the template to use, e.g. --template navigation
  *   --version <alternative rn-redux package> - override default (https://registry.npmjs.org/rn-redux@latest),
  */
+
 
 var options = require('minimist')(process.argv.slice(2));
 
@@ -307,46 +310,61 @@ function run(root, projectName, options) {
   cli.init(root, projectName);
 
   // Init redux in project
-  var pathTemplates = __dirname + '/templates/temp1';
-  initRedux(pathTemplates, root);
+  initRedux((userSelect) => {
+    switch (userSelect) {
+      case 1:
+        var pathTemplates = __dirname + '/templates/temp1';
+        installRedux(pathTemplates, root);
+        break;
+      default:
+        break;
+    }
+  });
 
 }
 
-function initRedux(pathTemplates, root) {
+
+/**
+ * initRedux
+ * @param {path folder copy to project} pathTemplates 
+ * @param {path project current} root 
+ */
+function installRedux(pathTemplates, root) {
   console.log('\nWating init redux...');
 
   exec('cd ' + root, (e, stdout, stderr) => {
     if (e) {
       console.error('install redux fail');
     }
-    // console.log('stdout ', stdout);
-    // console.log('stderr ', stderr);
+
+    spawn('npm', ['i', '--save', 'redux', 'react-redux', '--save-exact'], { stdio: 'inherit' })
+      .on('exit', function (error) {
+        if (error) {
+          console.error(error);
+        } else {
+
+          copydir(pathTemplates, root, function (err) {
+            if (err) {
+              console.error(err);
+            } else {
+              // console.log('copy file success');
+              console.log('\nInit redux success\n');
+            }
+          });
+
+          fs.unlink(root + '/App.js', function (error) {
+            if (error) {
+              console.error(error);
+            }
+            // console.log('deleted App.js');
+          });
+
+        }
+
+      });
+
   });
 
-  exec('npm i --save redux react-redux --save-exact', (e, stdout, stderr) => {
-    if (e) {
-      console.error('install react-redux fail');
-    }
-    // console.log('stdout ', stdout);
-    // console.log('stderr ', stderr);
-  });
-
-  copydir(pathTemplates, root, function (err) {
-    if (err) {
-      console.error(err);
-    } else {
-      // console.log('copy file success');
-    }
-  });
-
-  fs.unlink(root + '/App.js', function (error) {
-    if (error) {
-      console.error(error);
-    }
-    // console.log('deleted App.js');
-  });
-
-  console.log('\nInit redux success\n');
 
 }
 
