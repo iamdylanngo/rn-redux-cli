@@ -313,13 +313,22 @@ function run(root, projectName, options) {
 }
 
 function initRedux(pathTemplates, root) {
-  console.log('\nWating init redux...\n');
+  console.log('\nWating init redux...');
 
-  fs.unlink(root + '/App.js', function (error) {
-    if (error) {
-      console.error(error);
+  exec('cd ' + root, (e, stdout, stderr) => {
+    if (e) {
+      console.error('install redux fail');
     }
-    // console.log('Deleted App.js');
+    // console.log('stdout ', stdout);
+    // console.log('stderr ', stderr);
+  });
+
+  exec('npm i --save redux react-redux --save-exact', (e, stdout, stderr) => {
+    if (e) {
+      console.error('install react-redux fail');
+    }
+    // console.log('stdout ', stdout);
+    // console.log('stderr ', stderr);
   });
 
   copydir(pathTemplates, root, function (err) {
@@ -330,13 +339,14 @@ function initRedux(pathTemplates, root) {
     }
   });
 
-  try {
-    execSync('cd ' + root);
-    execSync('npm i --save redux react-redux --save-exact', { stdio: 'inherit' });
-    console.log('\nInit redux success\n');
-  } catch (ex) {
-    console.error(ex);
-  }
+  fs.unlink(root + '/App.js', function (error) {
+    if (error) {
+      console.error(error);
+    }
+    // console.log('deleted App.js');
+  });
+
+  console.log('\nInit redux success\n');
 
 }
 
