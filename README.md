@@ -1,7 +1,9 @@
 ## Running CLI with local modifications
 
 React Native Redux is tools help us create base project React Native
+
 Tools automatically add dependencies of Redux and add structure folder
+
 Fast-growing create applications React Native
 
 
