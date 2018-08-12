@@ -1,4 +1,4 @@
-## Running CLI with local modifications
+## RN-Redux CLI Tools
 
 React Native Redux is tools help us create base project React Native
 
@@ -31,4 +31,4 @@ rn-redux init AwesomeApp
 rn-redux init AwesomeApp --version 0.55.3
 ```
 
-Repository React Native Redux Cli: [here](https://github.com/jundat95/rn-redux-cli).
+Repository React Native Redux Cli: [click here](https://github.com/jundat95/rn-redux-cli)

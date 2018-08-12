@@ -314,7 +314,7 @@ async function run(root, projectName, options) {
     initProject((userSelect) => {
         if (!userSelect) return;
         selectTemplates(temp => {
-          if (temp === 'temp0') return 0;
+          if (temp === 'temp0') return console.log('This feature is under construction');
           var pathTemplates = __dirname + '/templates/' + temp;
           installRedux(pathTemplates, root);
         });
