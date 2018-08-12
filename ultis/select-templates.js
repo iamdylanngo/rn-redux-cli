@@ -4,7 +4,6 @@ var inquirer = require('inquirer');
 
 module.exports = function selectTemplate(callback) {
 
-  clear();
   console.log('');
   var options = [
     {
@@ -14,7 +13,6 @@ module.exports = function selectTemplate(callback) {
       choices: [
         { value: "temp1", name: "choose templates 1" },
         { value: "temp2", name: "choose templates 2" },
-        { value: "temp3", name: "choose templates 3" },
         { value: "temp0", name: "customs templates " },
       ]
     }

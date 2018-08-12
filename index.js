@@ -124,7 +124,7 @@ if (cli) {
     if (options._.length === 0 && (options.h || options.help)) {
         console.log([
             '',
-            '  Usage: react-native [command] [options]',
+            '  Usage: rn-redux [command] [options]',
             '',
             '',
             '  Commands:',
@@ -143,7 +143,7 @@ if (cli) {
 
     if (commands.length === 0) {
         console.error(
-            'You did not pass any commands, run `react-native --help` to see a list of all available commands.'
+            'You did not pass any commands, run `rn-redux --help` to see a list of all available commands.'
         );
         process.exit(1);
     }
@@ -152,7 +152,7 @@ if (cli) {
         case 'init':
             if (!commands[1]) {
                 console.error(
-                    'Usage: react-native init <ProjectName> [--verbose]'
+                    'Usage: rn-redux init <ProjectName> [--verbose]'
                 );
                 process.exit(1);
             } else {
@@ -361,8 +361,7 @@ function checkNodeVersion() {
     if (!semver.satisfies(process.version, packageJson.engines.node)) {
         console.error(chalk.red(
             'You are currently running Node %s but React Native requires %s. ' +
-            'Please use a supported version of Node.\n' +
-            'See https://facebook.github.io/react-native/docs/getting-started.html'
+            'Please use a supported version of Node.\n'
         ),
             process.version,
             packageJson.engines.node);
@@ -370,11 +369,11 @@ function checkNodeVersion() {
 }
 
 function printVersionsAndExit(reactNativePackageJsonPath) {
-    console.log('react-native-cli: ' + require('./package.json').version);
+    console.log('rn-redux-cli: ' + require('./package.json').version);
     try {
-        console.log('react-native: ' + require(reactNativePackageJsonPath).version);
+        console.log('rn-redux: ' + require(reactNativePackageJsonPath).version);
     } catch (e) {
-        console.log('react-native: n/a - not inside a React Native project directory');
+        console.log('rn-redux: n/a - not inside a React Native project directory');
     }
     process.exit();
 }

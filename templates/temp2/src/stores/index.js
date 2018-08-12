@@ -1,5 +1,5 @@
 import { createStore, combineReducers } from 'redux';
-import { HomeReducer } from '../components/home/home.reducer';
+import { HomeReducer } from '../features/home/home.reducer';
 
 const store = createStore(
   combineReducers({ home: HomeReducer }),

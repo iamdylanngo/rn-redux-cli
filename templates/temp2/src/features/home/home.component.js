@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
   View, Text, StyleSheet, TextInput,
-  TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { increment, decrement, setNumber, reset } from './home.actions';
+import ButtomCustom from '../../components/buttom-custom';
 
 const mapStateToProps = state => ({
   number: state.home.number,
@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => ({
   reset: () => dispatch(reset()),
 });
 
-export class LoginComponent extends Component {
+export class HomeComponent extends Component {
 
   constructor(props) {
     super(props);
@@ -33,20 +33,18 @@ export class LoginComponent extends Component {
         <View style={styles.homeForm}>
           <Text style={styles.homeNumber}>Number: {this.props.number}</Text>
           <View style={styles.viewButtom}>
-            <TouchableOpacity
-              style={styles.buttonHome}
-              onPress={() => {
-                this.props.decrement();
-              }}>
-              <Text style={styles.textButtom}>Decrement</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonHome}
-              onPress={() => {
-                this.props.increment();
-              }}>
-              <Text style={styles.textButtom}>Increment</Text>
-            </TouchableOpacity>
+            <ButtomCustom
+              styleButtom={styles.buttonHome}
+              styleText={styles.textButtom}
+              textButtom="Decrement"
+              onPress={() => this.props.decrement()}
+            />
+            <ButtomCustom
+              styleButtom={styles.buttonHome}
+              styleText={styles.textButtom}
+              textButtom="Increment"
+              onPress={() => this.props.increment()}
+            />
           </View>
           <TextInput
             style={styles.textInput}
@@ -57,28 +55,28 @@ export class LoginComponent extends Component {
             keyboardType={'decimal-pad'}
             placeholder='Enter number'
           />
-          <TouchableOpacity
-            style={styles.buttonHome}
-            onPress={() => {
-              this.props.setNumber(this.state.inputNumber);
-            }}>
-            <Text style={styles.textButtom}>Set Number</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonHome}
-            onPress={() => {
-              this.props.reset();
-              this.setState({ inputNumber: '0' });
-            }}>
-            <Text style={styles.textButtom}>Reset Number</Text>
-          </TouchableOpacity>
+           <ButtomCustom
+              styleButtom={styles.buttonHome}
+              styleText={styles.textButtom}
+              textButtom="Set Number"
+              onPress={() => this.props.setNumber(this.state.inputNumber)}
+            />
+           <ButtomCustom
+              styleButtom={styles.buttonHome}
+              styleText={styles.textButtom}
+              textButtom="Reset Number"
+              onPress={() => {
+                this.props.reset();
+                this.setState({ inputNumber: '0' });
+              }}
+            />
         </View>
       </View>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);
 
 const styles = StyleSheet.create({
   container: {
