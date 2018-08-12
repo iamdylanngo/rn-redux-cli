@@ -1,6 +1,16 @@
 ## Running CLI with local modifications
 
-React Native is distributed as npm packages, `rn-redux`. React Native framework code and is installed locally into your project when you run `rn-redux init`.
+React Native Redux is tools help us create base project React Native
+Tools automatically add dependencies of Redux and add structure folder
+Fast-growing create applications React Native
+
+
+
+## Supported OperaSystem
+* Window
+* MacOSX
+* Linux
+
 
 
 ## Install RN-Redux CLI
@@ -12,7 +22,7 @@ npm i -g rn-redux
 
 ## Running the local CLI
 
-Now that the packages are installed in sinopia, you can install the new `rn-redux` package globally and when you use `rn-redux init`, it will install the new `rn-redux` package as well:
+Now we will use tools 'rn-redux', to create a React Native project quickly
 
 ```bash
 rn-redux init AwesomeApp
