@@ -24,7 +24,7 @@ npm i -g rn-redux
 
 ## Running the local CLI
 
-Now we will use tools 'rn-redux', to create a React Native project quickly
+Now we will use tools `rn-redux`, to create a React Native project quickly
 
 ```bash
 rn-redux init AwesomeApp
