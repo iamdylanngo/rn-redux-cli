@@ -62,7 +62,7 @@ var selectTemplates = require('./ultis/select-templates');
 
 var options = require('minimist')(process.argv.slice(2));
 
-var CLI_MODULE_PATH = function() {
+var CLI_MODULE_PATH = function () {
     return path.resolve(
         process.cwd(),
         'node_modules',
@@ -71,7 +71,7 @@ var CLI_MODULE_PATH = function() {
     );
 };
 
-var REACT_NATIVE_PACKAGE_JSON_PATH = function() {
+var REACT_NATIVE_PACKAGE_JSON_PATH = function () {
     return path.resolve(
         process.cwd(),
         'node_modules',
@@ -218,7 +218,7 @@ function createAfterConfirmation(name, options) {
         default: 'no'
     };
 
-    prompt.get(property, function(err, result) {
+    prompt.get(property, function (err, result) {
         if (result.yesno[0] === 'y') {
             createProject(name, options);
         } else {
@@ -314,9 +314,9 @@ async function run(root, projectName, options) {
     initProject((userSelect) => {
         if (!userSelect) return;
         selectTemplates(temp => {
-          if (temp === 'temp0') return console.log('This feature is under construction');
-          var pathTemplates = __dirname + '/templates/' + temp;
-          installRedux(pathTemplates, root);
+            if (temp === 'temp0') return console.log('This feature is under construction');
+            var pathTemplates = __dirname + '/templates/' + temp;
+            installRedux(pathTemplates, root);
         });
 
     });
@@ -332,25 +332,70 @@ async function run(root, projectName, options) {
 async function installRedux(pathTemplates, root) {
     console.log('\nWating init redux...');
 
+    // install package
+    await installPackage(pathTemplates, root);
+
+    copydir(
+        pathTemplates,
+        root,
+        function (stat, filepath, filename) {
+            if (stat === 'file' && path.extname(filepath) === '.json') {
+                return false;
+            }
+            if (stat === 'directory' && filename === '.json') {
+                return false;
+            }
+            return true;
+        },
+        function (err) {
+            if (err) {
+                console.error(err);
+            } else {
+                // console.log('copy file success');
+
+                fs.unlink(root + '/App.js', function (error) {
+                    if (error) {
+                        console.error(error);
+                    }
+                    // console.log('deleted App.js');
+                    console.log('\nInit redux success\n');
+                });
+            }
+        });
+
+}
+
+/**
+ * 
+ * @param {path templates} pathTemplates 
+ * @param {path root} root 
+ */
+async function installPackage(pathTemplates, root) {
+    var packagePath = pathTemplates + '/package.json';
+    var packageJson = null;
+    if (fs.existsSync(packagePath)) {
+        packageJson = require(packagePath);
+    }
+
     await execSync('cd ' + root, { stdio: 'inherit' });
     await execSync('npm i --save redux react-redux', { stdio: 'inherit' });
 
-    copydir(pathTemplates, root, function(err) {
-        if (err) {
-            console.error(err);
-        } else {
-            // console.log('copy file success');
-
-            fs.unlink(root + '/App.js', function(error) {
-                if (error) {
-                    console.error(error);
-                }
-                // console.log('deleted App.js');
-                console.log('\nInit redux success\n');
-            });
+    if (packageJson) {
+        console.log("package: ");
+        if (packageJson.dependencies) {
+            for (var item in packageJson.dependencies) {
+                // console.log(item + '-' + package.dependencies[item]);
+                await execSync('npm i --save ' + item + '@' + packageJson.dependencies[item], { stdio: 'inherit' });
+            }
         }
-    });
+        if (packageJson.devDependencies) {
+            for (var item in packageJson.devDependencies) {
+                // console.log(item + '-' + package.devDependencies[item]);
+                await execSync('npm i --save ' + item + '@' + packageJson.devDependencies[item], { stdio: 'inherit' });
+            }
+        }
 
+    }
 }
 
 function checkNodeVersion() {
