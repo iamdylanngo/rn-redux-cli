@@ -1,5 +1,3 @@
-var clear = require('../ultis/clear');
-var chalk = require('chalk');
 var inquirer = require('inquirer');
 
 module.exports = function selectTemplate(callback) {
