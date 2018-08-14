@@ -316,7 +316,9 @@ async function run(root, projectName, options) {
         selectTemplates(temp => {
             if (temp !== 'temp0') {
                 var pathTemplates = __dirname + '/templates/' + temp;
-                moveProject(pathTemplates, root);
+                moveProject(pathTemplates, root, () => {
+                    
+                });
             } else {
                 customTemplate(res => {
                     if (res === 'local') {
