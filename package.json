@@ -15,6 +15,18 @@
     "node-cli"
   ],
   "main": "index.js",
+  "files": [
+    "index.js",
+    "ultis/clear.js",
+    "ultis/custom-template.js",
+    "ultis/get-folder.js",
+    "ultis/init-project.js",
+    "ultis/select-templates.js",
+    "templates/temp1",
+    "templates/temp2",
+    "images",
+    "README.md"
+  ],
   "engines": {
     "node": ">=4"
   },
