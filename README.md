@@ -1,4 +1,4 @@
-## RN-Redux CLI Tools
+# [RN-Redux CLI](https://github.com/jundat95/rn-redux-cli.git) &middot; [![Build status](https://ci.appveyor.com/api/projects/status/b5kayplxp97i2nq6?svg=true)](https://ci.appveyor.com/project/jundat95/rn-redux-cli) [![npm version](https://badge.fury.io/js/rn-redux.svg)](https://badge.fury.io/js/rn-redux) [![Rn-Redux Welcome](https://img.shields.io/badge/Jundat95-RNRedux-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
 
 React Native Redux is tools help us create base project React Native, tools automatically add dependencies of Redux and add structure folder
 
