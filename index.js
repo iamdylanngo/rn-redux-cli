@@ -323,7 +323,9 @@ async function run(root, projectName, options) {
                         getFolder('enter folder: ', folder => {
                             var pathTemplates = folder;
                             if (fs.existsSync(pathTemplates)) {
-                                moveProject(pathTemplates, root);
+                                moveProject(pathTemplates, root, () => {
+                                    // copy project success
+                                });
                             } else {
                                 console.log(`folder don't exists`);
                             }
