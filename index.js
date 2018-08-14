@@ -330,7 +330,6 @@ async function run(root, projectName, options) {
                         });
                     } else {
                         getFolder('enter url github: ', url => {
-                            console.log('url: ' + url);
                             cloneGithub(url, root);
                         });
                     }
