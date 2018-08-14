@@ -424,7 +424,7 @@ async function installPackage(pathTemplates, root) {
         if (packageJson.devDependencies) {
             for (var item in packageJson.devDependencies) {
                 // console.log(item + '-' + package.devDependencies[item]);
-                await execSync('npm i --save ' + item + '@' + packageJson.devDependencies[item], { stdio: 'inherit' });
+                await execSync('npm i --save-dev ' + item + '@' + packageJson.devDependencies[item], { stdio: 'inherit' });
             }
         }
 
