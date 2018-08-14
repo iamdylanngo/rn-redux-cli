@@ -1,6 +1,6 @@
 var inquirer = require('inquirer');
 
-module.exports = function CustomTemplate(callback) {
+module.exports = function customTemplate(callback) {
     var options = [
         {
             name: "customTemplate",

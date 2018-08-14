@@ -38,16 +38,16 @@
 
 var fs = require('fs');
 var path = require('path');
-var exec = require('child_process').exec;
 var execSync = require('child_process').execSync;
-var spawn = require('child_process').spawn;
 var chalk = require('chalk');
 var prompt = require('prompt');
 var semver = require('semver');
 var copydir = require('copy-dir');
+var vnrm = require('vnrm');
 var initProject = require('./ultis/init-project');
 var selectTemplates = require('./ultis/select-templates');
-
+var customTemplate = require('./ultis/custom-template');
+var getFolder = require('./ultis/get-folder');
 
 /**
  * Used arguments:
@@ -310,27 +310,66 @@ async function run(root, projectName, options) {
     cli = require(CLI_MODULE_PATH());
     cli.init(root, projectName);
 
-    // Init redux in project
+    // Set up new project
     initProject((userSelect) => {
         if (!userSelect) return;
         selectTemplates(temp => {
-            if (temp === 'temp0') return console.log('This feature is under construction');
-            var pathTemplates = __dirname + '/templates/' + temp;
-            installRedux(pathTemplates, root);
+            if (temp !== 'temp0') {
+                var pathTemplates = __dirname + '/templates/' + temp;
+                moveProject(pathTemplates, root);
+            } else {
+                customTemplate(res => {
+                    if (res === 'local') {
+                        getFolder('enter folder: ', folder => {
+                            var pathTemplates = folder;
+                            if (fs.existsSync(pathTemplates)) {
+                                moveProject(pathTemplates, root);
+                            } else {
+                                console.log(`folder don't exists`);
+                            }
+                        });
+                    } else {
+                        getFolder('enter url github: ', url => {
+                            cloneGithub(url, root);                            
+                        });
+                    }
+                });
+            }
         });
 
     });
 
 }
 
+async function cloneGithub(url, root) {
+    var temp = url.split('/');
+    var name = temp[temp.length - 1].split('.')[0];
+    console.log('name: ' + name);
+    if (fs.existsSync(name)) 
+        return console.log('folder ' + name + ' is exists');
+
+    await execSync('git clone ' + url, { stdio: 'inherit' });    
+    console.log('git succes');
+    console.log(root + '/' + name);
+    await moveProject(root + '/' + name, root);
+    console.log('move success');
+    // await execSync('npm i vnrm --save');
+    // await execSync('node node_modules/vnrm/bin/index.js ' + root + '/' + name);
+    vnrm(root + '/' + name, err => {
+        console.log(err);
+    });
+    console.log('delete folder success');
+    
+}
+
 
 /**
- * initRedux
+ * moveProject
  * @param {path folder copy to project} pathTemplates 
  * @param {path project current} root 
  */
-async function installRedux(pathTemplates, root) {
-    console.log('\nWating init redux...');
+async function moveProject(pathTemplates, root) {
+    console.log('\nCopy templates to new project...');
 
     // install package
     await installPackage(pathTemplates, root);
@@ -358,7 +397,7 @@ async function installRedux(pathTemplates, root) {
                         console.error(error);
                     }
                     // console.log('deleted App.js');
-                    console.log('\nInit redux success\n');
+                    console.log('\nCopy templates success\n');
                 });
             }
         });
@@ -377,11 +416,7 @@ async function installPackage(pathTemplates, root) {
         packageJson = require(packagePath);
     }
 
-    await execSync('cd ' + root, { stdio: 'inherit' });
-    await execSync('npm i --save redux react-redux', { stdio: 'inherit' });
-
     if (packageJson) {
-        console.log("package: ");
         if (packageJson.dependencies) {
             for (var item in packageJson.dependencies) {
                 // console.log(item + '-' + package.dependencies[item]);

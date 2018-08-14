@@ -1,6 +1,6 @@
 var inquirer = require('inquirer');
 
-module.exports = function GetFolder(message, callback) {
+module.exports = function getFolder(message, callback) {
     var options = [
         {
             name: "getFolder",

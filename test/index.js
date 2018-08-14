@@ -1,33 +1,10 @@
-var fs = require('fs');
-var path = require('path');
-var copydir = require('copy-dir');
+var { execSync } = require('child_process');
 
-var packagePath = __dirname + '/test1/package.json';
-var package = null;
-if (fs.existsSync(packagePath)) {
-  package = require(__dirname + '/test1/package.json');
-}
+// execSync('ls -a',  { stdio: 'inherit' });
+// execSync('node node_modules/vnrm/bin/index.js rn-redux-templates1', { stdio: 'inherit' });
+// execSync('git clone https://github.com/jundat95/rn-redux-templates1.git', { stdio: 'inherit' });
 
-copydir.sync(__dirname + '/test1/', __dirname + '/test2/', function (stat, filepath, filename) {
-  if (stat === 'file' && path.extname(filepath) === '.json') {
-    return false;
-  }
-  if (stat === 'directory' && filename === '.json') {
-    return false;
-  }
-  return true;
-}, function (err) {
-  console.log('error: ');
-  console.log(err);
-});
-
-if (package) {
-  console.log("package: ");
-  // console.log(package.dependencies);
-  if (package.dependencies) {
-    for (var item in package.dependencies) {
-      console.log(item + '-' + package.dependencies[item]);
-    }
-  }
-
-}
+var github = 'https://github.com/jundat95/rn-redux-templates1.git';
+var temp = github.split('/');
+var temp1 = temp[temp.length - 1].split('.');
+console.log(temp1[0]);
