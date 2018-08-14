@@ -18,7 +18,6 @@ module.exports = function getFolder(message, callback) {
     ];
 
     inquirer.prompt(options).then(res => {
-        console.log(res);
         callback(res.getFolder);
     });
 }

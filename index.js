@@ -330,7 +330,8 @@ async function run(root, projectName, options) {
                         });
                     } else {
                         getFolder('enter url github: ', url => {
-                            cloneGithub(url, root);                            
+                            console.log('url: ' + url);
+                            cloneGithub(url, root);
                         });
                     }
                 });
@@ -344,22 +345,17 @@ async function run(root, projectName, options) {
 async function cloneGithub(url, root) {
     var temp = url.split('/');
     var name = temp[temp.length - 1].split('.')[0];
-    console.log('name: ' + name);
-    if (fs.existsSync(name)) 
+    if (fs.existsSync(name))
         return console.log('folder ' + name + ' is exists');
 
-    await execSync('git clone ' + url, { stdio: 'inherit' });    
-    console.log('git succes');
-    console.log(root + '/' + name);
-    await moveProject(root + '/' + name, root);
-    console.log('move success');
-    // await execSync('npm i vnrm --save');
-    // await execSync('node node_modules/vnrm/bin/index.js ' + root + '/' + name);
-    vnrm(root + '/' + name, err => {
-        console.log(err);
+    await execSync('git clone ' + url, { stdio: 'inherit' });
+    await moveProject(root + '/' + name, root, () => {
+        vnrm(root + '/' + name, err => {
+            if (err)
+                console.log(err);
+        });
     });
-    console.log('delete folder success');
-    
+
 }
 
 
@@ -368,7 +364,7 @@ async function cloneGithub(url, root) {
  * @param {path folder copy to project} pathTemplates 
  * @param {path project current} root 
  */
-async function moveProject(pathTemplates, root) {
+async function moveProject(pathTemplates, root, callback) {
     console.log('\nCopy templates to new project...');
 
     // install package
@@ -389,15 +385,18 @@ async function moveProject(pathTemplates, root) {
         function (err) {
             if (err) {
                 console.error(err);
+                callback();
             } else {
                 // console.log('copy file success');
 
                 fs.unlink(root + '/App.js', function (error) {
                     if (error) {
                         console.error(error);
+                        callback();
                     }
                     // console.log('deleted App.js');
                     console.log('\nCopy templates success\n');
+                    callback();
                 });
             }
         });

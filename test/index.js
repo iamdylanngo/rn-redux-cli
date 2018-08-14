@@ -1,10 +1,39 @@
-var { execSync } = require('child_process');
+var copydir = require('copy-dir');
+var path = require('path');
+var fs = require('fs');
+var vnrm = require('vnrm');
 
-// execSync('ls -a',  { stdio: 'inherit' });
-// execSync('node node_modules/vnrm/bin/index.js rn-redux-templates1', { stdio: 'inherit' });
-// execSync('git clone https://github.com/jundat95/rn-redux-templates1.git', { stdio: 'inherit' });
+console.log(__dirname);
 
-var github = 'https://github.com/jundat95/rn-redux-templates1.git';
-var temp = github.split('/');
-var temp1 = temp[temp.length - 1].split('.');
-console.log(temp1[0]);
+copydir(
+    __dirname + '/temp3',
+    __dirname,
+    function (stat, filepath, filename) {
+        if (stat === 'file' && path.extname(filepath) === '.json') {
+            return false;
+        }
+        if (stat === 'directory' && filename === '.json') {
+            return false;
+        }
+        return true;
+    },
+    function (err) {
+        if (err) {
+            console.error(err);
+        } else {
+            // console.log('copy file success');
+
+            fs.unlink(root + '/App.js', function (error) {
+                if (error) {
+                    console.error(error);
+                }
+                // console.log('deleted App.js');
+                console.log('\nCopy templates success\n');
+                vnrm(__dirname + '/temp3', err => {
+                    console.log(err);
+                });
+            });
+        }
+    });
+
+   
