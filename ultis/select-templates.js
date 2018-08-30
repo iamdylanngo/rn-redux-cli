@@ -12,7 +12,6 @@ module.exports = function selectTemplate(callback) {
         { value: "temp1", name: "choose templates - redux base" },
         { value: "temp2", name: "choose templates - redux with features" },
         { value: "temp3", name: "choose templates - redux-saga" },
-        { value: "temp4", name: "choose templates - redux-saga 2" },
         { value: "temp0", name: "customs templates " },
       ]
     }
