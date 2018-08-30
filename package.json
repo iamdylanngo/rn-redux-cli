@@ -1,6 +1,6 @@
 {
   "name": "rn-redux",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "license": "MIT",
   "author": {
     "name": "Tinh Ngo",
@@ -49,5 +49,8 @@
     "prompt": "^0.2.14",
     "semver": "^5.0.3",
     "vnrm": "0.0.11"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
   }
 }

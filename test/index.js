@@ -1,39 +1,25 @@
-var copydir = require('copy-dir');
-var path = require('path');
 var fs = require('fs');
-var vnrm = require('vnrm');
+var path = require('path');
+var assert = require('assert');
 
-console.log(__dirname);
+var templatePath = function () {
+    return path.resolve(
+        process.cwd(),
+        'templates'
+    );
+};
+var rootTemplatePath = templatePath();
 
-copydir(
-    __dirname + '/temp3',
-    __dirname,
-    function (stat, filepath, filename) {
-        if (stat === 'file' && path.extname(filepath) === '.json') {
-            return false;
-        }
-        if (stat === 'directory' && filename === '.json') {
-            return false;
-        }
-        return true;
-    },
-    function (err) {
-        if (err) {
-            console.error(err);
-        } else {
-            // console.log('copy file success');
-
-            fs.unlink(root + '/App.js', function (error) {
-                if (error) {
-                    console.error(error);
-                }
-                // console.log('deleted App.js');
-                console.log('\nCopy templates success\n');
-                vnrm(__dirname + '/temp3', err => {
-                    console.log(err);
-                });
-            });
-        }
+describe('Test Templates', function() {
+    
+    it('check path templates 1', function() {
+        var temp1 = fs.existsSync(rootTemplatePath + '/temp1');
+        assert.equal(true, temp1);
     });
 
-   
+    it('check path templates 2', function() {
+        var temp2 = fs.existsSync(rootTemplatePath + '/temp2');
+        assert.equal(true, temp2);
+    });
+
+});
