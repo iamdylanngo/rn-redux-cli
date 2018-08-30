@@ -67,6 +67,9 @@ package.json file has format
 }
 ```
 
+### Example base project
+Redux base: https://github.com/jundat95/rn-redux-templates1.git
+
 All dependencies will install to new project
 
 ### Thanks, click on the star button above to support me
