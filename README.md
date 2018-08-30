@@ -69,11 +69,15 @@ package.json file has format
 
 ### Example base project 
 Use for custom templates with GitHub: 
-Redux base: https://github.com/jundat95/rn-redux-templates1.git
+
+Redux base: https://github.com/jundat95/redux-templates.git
+
 Redux-Saga base: https://github.com/jundat95/redux-saga-templates.git
 
 ## Tutorial:
+
 Video 1: https://www.youtube.com/watch?v=6MiX68YHU_E
+
 Video 2: https://www.youtube.com/watch?v=WbVYEDsca4g
 
 All dependencies will install to new project
