@@ -3,3 +3,6 @@ package-lock.json
 test/
 ./test/
 .vscode
+.git
+.hg
+.npmrc
