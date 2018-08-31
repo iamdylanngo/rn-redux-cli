@@ -377,7 +377,8 @@ async function moveProject(pathTemplates, root, callback) {
         pathTemplates,
         root,
         function (stat, filepath, filename) {
-            if (stat === 'file' && path.extname(filepath) === '.json') {
+            // Don't copy file .json in rootFolder to new project
+            if (stat === 'file' && path.extname(filepath) === '.json' && filepath === pathTemplates + filename) {
                 return false;
             }
             if (stat === 'directory' && filename === '.json') {
