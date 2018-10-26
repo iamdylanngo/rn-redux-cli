@@ -50,7 +50,11 @@ export class HomeComponent extends Component {
             style={styles.textInput}
             value={this.state.inputNumber}
             onChangeText={(value) => {
-              this.setState({ inputNumber: value });
+              if (value) {
+                this.setState({ inputNumber: parseInt(value) });
+              } else {
+                this.setState({ inputNumber: 0 });
+              }
             }}
             keyboardType={'decimal-pad'}
             placeholder='Enter number'
