@@ -378,7 +378,7 @@ async function moveProject(pathTemplates, root, callback) {
         root,
         function (stat, filepath, filename) {
             // Don't copy file .json in rootFolder to new project
-            if (stat === 'file' && path.extname(filepath) === '.json' && filepath === pathTemplates + filename) {
+            if (stat === 'file' && path.extname(filepath) === '.json' && path.relative(filepath, pathTemplates + "/" + filename) === '') {
                 return false;
             }
             if (stat === 'directory' && filename === '.json') {
@@ -392,7 +392,6 @@ async function moveProject(pathTemplates, root, callback) {
                 callback();
             } else {
                 // console.log('copy file success');
-
                 fs.unlink(root + '/App.js', function (error) {
                     if (error) {
                         console.error(error);
@@ -413,6 +412,8 @@ async function moveProject(pathTemplates, root, callback) {
  * @param {path root} root 
  */
 async function installPackage(pathTemplates, root) {
+    var forceNpmClient = options.npm;
+    var yarnVersion = (!forceNpmClient) && getYarnVersionIfAvailable();
     var packagePath = pathTemplates + '/package.json';
     var packageJson = null;
     if (fs.existsSync(packagePath)) {
@@ -423,13 +424,22 @@ async function installPackage(pathTemplates, root) {
         if (packageJson.dependencies) {
             for (var item in packageJson.dependencies) {
                 // console.log(item + '-' + package.dependencies[item]);
-                await execSync('npm i --save ' + item + '@' + packageJson.dependencies[item], { stdio: 'inherit' });
+                if (yarnVersion) {
+                    await execSync('yarn add ' + item + '@' + packageJson.dependencies[item], { stdio: 'inherit' });
+                } else {
+                    await execSync('npm i --save ' + item + '@' + packageJson.dependencies[item], { stdio: 'inherit' });
+                }
+
             }
         }
         if (packageJson.devDependencies) {
             for (var item in packageJson.devDependencies) {
                 // console.log(item + '-' + package.devDependencies[item]);
-                await execSync('npm i --save-dev ' + item + '@' + packageJson.devDependencies[item], { stdio: 'inherit' });
+                if (yarnVersion) {
+                    await execSync('yarn add --dev ' + item + '@' + packageJson.devDependencies[item], { stdio: 'inherit' });
+                } else {
+                    await execSync('npm i --save-dev ' + item + '@' + packageJson.devDependencies[item], { stdio: 'inherit' });
+                }
             }
         }
 
