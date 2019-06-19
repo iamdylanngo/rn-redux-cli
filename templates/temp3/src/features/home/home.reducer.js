@@ -12,6 +12,8 @@ export const HomeReducer = (state = initState, action) => {
       return { ...state, number: state.number - 1 };
     case HomeTypes.HOME_SETNUMBER:
       return { ...state, number: action.number };
+    case HomeTypes.HOME_APPLYNUMBER:
+        return { ...state, number: action.number };  
     case HomeTypes.HOME_RESET:
       return { ...state, number: 0 };
     default:

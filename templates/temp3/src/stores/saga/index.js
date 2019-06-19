@@ -11,7 +11,7 @@ function* decrementSaga() {
 
 function* applyNumber(action) {
   console.log('applyNumber ===>');
-  yield put({ type: HomeTypes.HOME_APPLYNUMBER, number: action.number });
+  yield put({ type: HomeTypes.HOME_APPLYNUMBER, number: parseInt(action.number)});
 }
 
 function* rootSaga() {

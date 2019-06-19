@@ -2,6 +2,19 @@
 
 RN-Redux CLI is tools help us create project React Native with redux very easy
 
+## [v0.3.3](https://github.com/jundat95/rn-redux-cli/releases/tag/v0.3.3) (2019/06/19)
+
+**Implemented enhancements:**
+
+- Add latest version redux for each template
+
+**Fixed bug:**
+
+- Fix redux-saga template not setText
+
+
+**Merged pull requests:**
+
 ## [v0.3.2](https://github.com/jundat95/rn-redux-cli/releases/tag/v0.3.2) (2018/11/23)
 
 **Implemented enhancements:**

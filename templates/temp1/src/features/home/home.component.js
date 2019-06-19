@@ -48,7 +48,7 @@ export class HomeComponent extends Component {
           </View>
           <TextInput
             style={styles.textInput}
-            value={this.state.inputNumber}
+            value={this.state.inputNumber.toString()}
             onChangeText={(value) => {
               if (value) {
                 this.setState({ inputNumber: parseInt(value) });
